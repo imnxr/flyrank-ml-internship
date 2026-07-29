@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="FlyRank machine-learning capstone on content refresh risk screening for unseen clients." name="description"/>
+<title>Content Refresh Risk Screening — FlyRank ML Capstone</title>
+<style>
+    :root {
+      color-scheme: light;
+      --ink: #172033;
+      --muted: #5d6678;
+      --line: #dfe4ec;
+      --paper: #ffffff;
+      --page: #f5f7fa;
+      --accent: #234f9c;
+      --accent-soft: #edf3ff;
+      --code: #f1f4f8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+                   "Segoe UI", sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+    main {
+      width: min(980px, calc(100% - 32px));
+      margin: 40px auto;
+      padding: clamp(28px, 5vw, 72px);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 16px 48px rgba(25, 36, 58, 0.08);
+    }
+    h1, h2, h3, h4 {
+      line-height: 1.25;
+      scroll-margin-top: 24px;
+    }
+    h1 {
+      margin-top: 0;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      letter-spacing: -0.035em;
+    }
+    h2 {
+      margin-top: 2.6em;
+      padding-bottom: 0.35em;
+      border-bottom: 1px solid var(--line);
+      font-size: clamp(1.45rem, 3vw, 2rem);
+    }
+    h3 { margin-top: 2em; }
+    p, li { color: var(--ink); }
+    a {
+      color: var(--accent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+    blockquote {
+      margin: 1.5em 0;
+      padding: 1em 1.25em;
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+    }
+    code {
+      padding: 0.12em 0.35em;
+      background: var(--code);
+      border-radius: 5px;
+      font-size: 0.92em;
+    }
+    pre {
+      overflow-x: auto;
+      padding: 1rem 1.1rem;
+      background: #111827;
+      color: #f8fafc;
+      border-radius: 10px;
+      line-height: 1.55;
+    }
+    pre code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+    }
+    table {
+      width: 100%;
+      margin: 1.4em 0;
+      border-collapse: collapse;
+      font-size: 0.95em;
+    }
+    th, td {
+      padding: 0.7rem 0.8rem;
+      border: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--accent-soft); }
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 1.5rem auto;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+    hr {
+      margin: 2.5em 0;
+      border: 0;
+      border-top: 1px solid var(--line);
+    }
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    @media (max-width: 640px) {
+      body { font-size: 16px; }
+      main {
+        width: 100%;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+        padding: 24px 18px 40px;
+      }
+      table { display: block; overflow-x: auto; }
+    }
+
+    .contact-panel {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.65rem;
+      margin: 1.25rem 0 2rem;
+      padding: 0.9rem 1rem;
+      background: var(--accent-soft);
+      border: 1px solid #cfdbf4;
+      border-radius: 12px;
+    }
+    .contact-label {
+      margin-right: 0.25rem;
+      font-weight: 750;
+    }
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.38rem 0.72rem;
+      background: var(--paper);
+      border: 1px solid #c6d3ec;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .contact-link:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+    figure {
+      margin: 1.7rem 0;
+    }
+    figure img {
+      margin-bottom: 0.65rem;
+    }
+    figcaption {
+      color: var(--muted);
+      font-size: 0.92rem;
+      text-align: center;
+    }
+    .numeric-value {
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    .footer-line {
+      font-weight: 650;
+    }
+    .footer-links {
+      margin-top: 0.4rem;
+    }
+</style>
+<meta content="Content Refresh Risk Screening — FlyRank ML Capstone" property="og:title"/><meta content="A leakage-aware machine-learning capstone evaluating content-refresh risk on previously unseen clients." property="og:description"/><meta content="article" property="og:type"/></head>
+<body>
+<main>
+<h1>Capstone Report — Content Refresh Risk Screening</h1>
+<ul>
+<li><strong>Author:</strong> Muhammad Mansoor Ur Rehman</li>
+<li><strong>Lane:</strong> Content Refresh — Classification and Ranking</li>
+<li><strong>Repository:</strong> <a href="https://github.com/imnxr/flyrank-ml-internship" rel="noopener noreferrer" target="_blank">https://github.com/imnxr/flyrank-ml-internship</a></li>
+<li><strong>Date:</strong> <strong class="numeric-value">2026-07-30</strong></li>
+</ul><nav aria-label="Author contact links" class="contact-panel"><span class="contact-label">Connect with the author</span><a class="contact-link" href="https://www.linkedin.com/in/mmansoorurrehman/" rel="noopener noreferrer" target="_blank">LinkedIn</a><a class="contact-link" href="mailto:mansoorshakeel196@gmail.com">Email</a><a class="contact-link" href="https://github.com/imnxr" rel="noopener noreferrer" target="_blank">GitHub</a></nav>
+<h2>0. Abstract</h2>
+<p>This project asks whether historical Google Search Console performance can identify content pages likely to experience a substantial decline in impressions during the following <strong class="numeric-value">30</strong> days for previously unseen clients. The analysis used <strong class="numeric-value">101,362</strong> eligible pages from <strong class="numeric-value">44</strong> pseudonymous clients, with a non-overlapping <strong class="numeric-value">30</strong>-day feature window and <strong class="numeric-value">30</strong>-day outcome window. A transparent refresh-priority baseline was compared with leakage-safe logistic-regression and random-forest models using a client-grouped holdout split. The transparent baseline achieved the strongest unseen-client ranking performance, with ROC-AUC <strong class="numeric-value">0.6787</strong> and F1 <strong class="numeric-value">0.6506</strong>, while both learned models generalized poorly. The resulting output is a ranked screening list that helps FlyRank editors decide which pages to inspect first rather than automatically deciding that a page must be refreshed.</p>
+<h2>1. Problem framing</h2>
+<h3>Decision supported</h3>
+<p>The project supports this editorial decision:</p>
+<blockquote>
+<p>Which content pages should SEO analysts review first for a possible refresh?</p>
+</blockquote>
+<p>The unit of analysis is one content page. The output is a refresh-priority score and a ranked list of pages. An editor can begin with the highest-ranked pages, inspect the page and its current search context, and then decide whether a refresh, further investigation, or no action is appropriate.</p>
+<p>A substantial decline is defined as a reduction of more than <strong class="numeric-value">30%</strong> in Google Search Console impressions between the feature window and the following non-overlapping outcome window.</p>
+<h3>Why data and machine learning are useful</h3>
+<p>Manual inspection does not scale to more than <strong class="numeric-value">100,000</strong> pages. Historical impressions, clicks, average position, click-through-rate information, and content age can be combined into consistent screening signals. A client-grouped evaluation also tests whether those signals transfer beyond the clients used for training.</p>
+<h3>Cost of a wrong call</h3>
+<p>A false positive sends an editor to a page that may not require a refresh, consuming limited editorial time and potentially encouraging an unnecessary change. A false negative leaves a genuinely declining page lower in the queue, delaying investigation and possible recovery work. Because both errors matter, the output is positioned as decision support for human review rather than an automatic refresh instruction.</p>
+<h2>2. Data safety</h2>
+<h3>Data sources</h3>
+<p>The analysis used the FlyRank internship warehouse through DuckDB and Hugging Face.</p>
+<ul>
+<li><code>fact_content_daily_performance</code> supplied daily Google Search Console impressions, clicks, average position, reporting dates, data-availability flags, and pseudonymous page/client identifiers.</li>
+<li><code>dim_content</code> was used only to retrieve <code>content_created_date</code>, from which <code>content_age_days</code> was calculated at the feature cutoff.</li>
+</ul>
+<h3>Time windows and eligibility</h3>
+<ul>
+<li><strong>Feature window:</strong> <strong class="numeric-value">2026-03-03</strong> through <strong class="numeric-value">2026-04-01</strong>.</li>
+<li><strong>Outcome window:</strong> <strong class="numeric-value">2026-04-02</strong> through <strong class="numeric-value">2026-05-01</strong>.</li>
+<li><strong>Eligibility:</strong> Google Search Console data available and at least <strong class="numeric-value">100</strong> impressions in the feature window.</li>
+<li><strong>Eligible sample:</strong> <strong class="numeric-value">101,362</strong> pages from <strong class="numeric-value">44</strong> clients.</li>
+<li><strong>Positive class:</strong> <strong class="numeric-value">42,723</strong> pages, or <strong class="numeric-value">42.1%</strong> of the eligible sample.</li>
+</ul>
+<p>The windows do not overlap. Features are calculated only from information available by the feature cutoff.</p>
+<h3>Leakage controls</h3>
+<p>The target was defined as:</p>
+<pre><code class="language-python">decline_label = (impression_change_ratio &lt; 0.70).astype(int)
+</code></pre>
+<p>The future-window impression total, the impression-change ratio, and the decline label were never used as model features.</p>
+<p>Label-derived fields such as <code>trend_direction</code> and <code>trend_pct</code> were excluded. Current-snapshot metadata whose historical value at the cutoff could not be verified was also excluded, including content type, word count, character count, backlinks, search volume, competition, main intent, last optimization date, and days since optimization.</p>
+<p><code>client_hash_id</code> was used only to create the grouped train/test split. <code>client_hash_id</code> and <code>content_hash_id</code> were retained only as pseudonymous identifiers in the recommendation output; neither was used as a prediction feature.</p>
+<p>No client names, domains, URLs, page text, or other directly identifying client information appears in the capstone outputs.</p>
+<h2>3. Baseline</h2>
+<p>The transparent baseline is a weighted refresh-priority score based on:</p>
+<ul>
+<li>previous <strong class="numeric-value">30</strong>-day impressions,</li>
+<li>previous <strong class="numeric-value">30</strong>-day average search position, and</li>
+<li>a click-through-rate proxy calculated from previous clicks and impressions.</li>
+</ul>
+<p>Scaling values and the classification threshold were fitted on the training data only. The threshold was selected to maximize training-set F1, then applied unchanged to the unseen-client test set.</p>
+<h3>Baseline performance on unseen clients</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th style="text-align:right">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accuracy</td>
+<td style="text-align:right"><strong class="numeric-value">0.5232</strong></td>
+</tr>
+<tr>
+<td>Precision</td>
+<td style="text-align:right"><strong class="numeric-value">0.4908</strong></td>
+</tr>
+<tr>
+<td>Recall</td>
+<td style="text-align:right"><strong class="numeric-value">0.9645</strong></td>
+</tr>
+<tr>
+<td>F1</td>
+<td style="text-align:right"><strong class="numeric-value">0.6506</strong></td>
+</tr>
+<tr>
+<td>ROC-AUC</td>
+<td style="text-align:right"><strong class="numeric-value">0.6787</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The baseline identified <strong class="numeric-value">3,123</strong> of the <strong class="numeric-value">3,238</strong> declining pages in the test set but also produced <strong class="numeric-value">3,240</strong> false positives. This behavior makes it suitable for broad screening when missing a declining page is costly, but not for automatic action.</p>
+<h2>4. Model and analysis</h2>
+<h3>Target</h3>
+<p>The binary target is <code>1</code> when the following <strong class="numeric-value">30</strong>-day impression total is less than <strong class="numeric-value">70%</strong> of the previous <strong class="numeric-value">30</strong>-day total and <code>0</code> otherwise.</p>
+<h3>Final leakage-safe features</h3>
+<ol>
+<li><code>impressions_prev30</code></li>
+<li><code>clicks_prev30</code></li>
+<li><code>avg_position_prev30</code></li>
+<li><code>content_age_days</code></li>
+</ol>
+<h3>Models</h3>
+<h4>Strict logistic regression</h4>
+<ul>
+<li>Median imputation.</li>
+<li>Standard scaling.</li>
+<li>Balanced class weights.</li>
+<li>Maximum <strong class="numeric-value">1,000</strong> iterations.</li>
+<li><code>random_state=42</code>.</li>
+</ul>
+<p>Logistic regression provides a readable linear benchmark and produces continuous scores suitable for ranking.</p>
+<h4>Strict random forest</h4>
+<ul>
+<li>Median imputation.</li>
+<li><strong class="numeric-value">200</strong> trees.</li>
+<li>Maximum depth of <strong class="numeric-value">12</strong>.</li>
+<li>Minimum leaf size of <strong class="numeric-value">20</strong>.</li>
+<li>Balanced class weights.</li>
+<li><code>random_state=42</code>.</li>
+<li>Parallel training with <code>n_jobs=-1</code>.</li>
+</ul>
+<p>The random forest tests whether nonlinear interactions among the four temporally aligned features improve prediction.</p>
+<h2>5. Evaluation</h2>
+<h3>Split design</h3>
+<p>A single <code>GroupShuffleSplit</code> was used with:</p>
+<ul>
+<li><code>test_size=0.20</code>,</li>
+<li><code>random_state=42</code>, and</li>
+<li><code>client_hash_id</code> as the grouping variable.</li>
+</ul>
+<p>No client appears in both sets.</p>
+<table>
+<thead>
+<tr>
+<th>Split</th>
+<th style="text-align:right">Pages</th>
+<th style="text-align:right">Clients</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Training</td>
+<td style="text-align:right"><strong class="numeric-value">94,325</strong></td>
+<td style="text-align:right"><strong class="numeric-value">35</strong></td>
+</tr>
+<tr>
+<td>Test</td>
+<td style="text-align:right"><strong class="numeric-value">7,037</strong></td>
+<td style="text-align:right"><strong class="numeric-value">9</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The test set contains <strong class="numeric-value">3,238</strong> declining pages and <strong class="numeric-value">3,799</strong> non-declining pages. Its decline base rate is <strong class="numeric-value">46.0%</strong>, while a majority-class classifier would achieve approximately <strong class="numeric-value">54.0%</strong> accuracy without useful ranking ability.</p>
+<h3>Model comparison on unseen clients</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th style="text-align:right">Accuracy</th>
+<th style="text-align:right">Precision</th>
+<th style="text-align:right">Recall</th>
+<th style="text-align:right">F1</th>
+<th style="text-align:right">ROC-AUC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transparent baseline</td>
+<td style="text-align:right"><strong class="numeric-value">0.5232</strong></td>
+<td style="text-align:right"><strong class="numeric-value">0.4908</strong></td>
+<td style="text-align:right"><strong class="numeric-value">0.9645</strong></td>
+<td style="text-align:right"><strong class="numeric-value">0.6506</strong></td>
+<td style="text-align:right"><strong class="numeric-value">0.6787</strong></td>
+</tr>
+<tr>
+<td>Strict random forest</td>
+<td style="text-align:right"><strong class="numeric-value">0.4854</strong></td>
+<td style="text-align:right"><strong class="numeric-value">0.4206</strong></td>
+<td style="text-align:right"><strong class="numeric-value">0.3132</strong></td>
+<td style="text-align:right"><strong class="numeric-value">0.3590</strong></td>
+<td style="text-align:right"><strong class="numeric-value">0.5264</strong></td>
+</tr>
+<tr>
+<td>Strict logistic regression</td>
+<td style="text-align:right"><strong class="numeric-value">0.4687</strong></td>
+<td style="text-align:right"><strong class="numeric-value">0.4510</strong></td>
+<td style="text-align:right"><strong class="numeric-value">0.7125</strong></td>
+<td style="text-align:right"><strong class="numeric-value">0.5524</strong></td>
+<td style="text-align:right"><strong class="numeric-value">0.4667</strong></td>
+</tr>
+</tbody>
+</table>
+<figure><img alt="ROC curves on unseen clients" decoding="async" loading="lazy" src="https://raw.githubusercontent.com/imnxr/flyrank-ml-internship/main/work/outputs/figures/capstone_roc_unseen_clients.png"/><figcaption>ROC curves on unseen clients</figcaption></figure>
+<h3>Error analysis</h3>
+<p>The transparent baseline has very high recall but low precision. It is effective at placing most declining pages into the review pool, but its large number of false positives can overwhelm editors if the threshold is treated as an automatic action boundary.</p>
+<p>The logistic model has lower recall than the baseline and a ROC-AUC below <strong class="numeric-value">0.50</strong> on this client split. This indicates that its fitted linear relationships did not transfer reliably to the held-out clients.</p>
+<p>The random forest ranks only slightly better than chance and misses most declining pages at its classification threshold. Its added complexity therefore did not create useful unseen-client generalization.</p>
+<p>The main result is a negative but useful finding: with the available temporally aligned features, the learned models did not outperform the transparent screening rule.</p>
+<h2>6. Interpretation</h2>
+<h3>Random-forest feature importance</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th style="text-align:right">Importance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>content_age_days</code></td>
+<td style="text-align:right"><strong class="numeric-value">0.5071</strong></td>
+</tr>
+<tr>
+<td><code>clicks_prev30</code></td>
+<td style="text-align:right"><strong class="numeric-value">0.2271</strong></td>
+</tr>
+<tr>
+<td><code>avg_position_prev30</code></td>
+<td style="text-align:right"><strong class="numeric-value">0.1432</strong></td>
+</tr>
+<tr>
+<td><code>impressions_prev30</code></td>
+<td style="text-align:right"><strong class="numeric-value">0.1226</strong></td>
+</tr>
+</tbody>
+</table>
+<figure><img alt="Strict random forest feature importance" decoding="async" loading="lazy" src="https://raw.githubusercontent.com/imnxr/flyrank-ml-internship/main/work/outputs/figures/capstone_random_forest_feature_importance.png"/><figcaption>Strict random forest feature importance</figcaption></figure>
+<p>Content age received approximately half of the random forest's total feature importance, followed by historical clicks. Average position and impressions contributed less. This suggests that the fitted forest relied heavily on differences between newer and older pages, but feature importance is not causal and does not mean that age itself causes a decline.</p>
+<p>The interpretation must also be limited by the forest's ROC-AUC of <strong class="numeric-value">0.5264</strong>. A feature can receive high importance inside a weak model without becoming a dependable operational signal. The more important practical result is that these four features were not sufficient to transfer strong predictive performance across unseen clients.</p>
+<h3>Surprises and negative results</h3>
+<p>The transparent rule outperformed both machine-learning models. This is an important result rather than a failed experiment: it shows that a simple, understandable rule can be more reliable than additional model complexity when features are limited and client behavior differs.</p>
+<h2>7. Recommendation</h2>
+<p>Use the transparent baseline score as a <strong>screening rank</strong>, not as an automatic refresh decision.</p>
+<h3>Suggested editorial workflow</h3>
+<ol>
+<li>Sort eligible pages by <code>refresh_priority_score</code> from highest to lowest.</li>
+<li>Review the highest-ranked pages first within each client's available editorial capacity.</li>
+<li>Confirm the decline using current Google Search Console trends and page context.</li>
+<li>Inspect whether the page is outdated, mismatched to search intent, technically impaired, or affected by seasonality.</li>
+<li>Refresh only when the human review finds a defensible reason.</li>
+<li>Record the action and later outcome so future models can learn from editorial decisions and post-refresh results.</li>
+</ol>
+<p>The baseline's high recall supports broad triage, but its precision of <strong class="numeric-value">0.4908</strong> means roughly half of predicted positives in this test were false positives. Editorial capacity should therefore determine the review cutoff. A fixed score threshold should not be treated as universally calibrated for every client.</p>
+<p>The ranked output is generated locally as:</p>
+<pre><code class="language-text">work/outputs/capstone_refresh_recommendations.csv
+</code></pre>
+<p>It contains <strong class="numeric-value">7,037</strong> pages from the nine unseen test clients. The CSV is intentionally excluded from Git because it is a generated data artifact.</p>
+<h3>Confidence</h3>
+<p>Confidence is moderate that the transparent baseline provides useful broad screening on this particular held-out client split. Confidence is low that the learned models provide dependable unseen-client prediction. Repeated grouped validation and richer time-aligned features are required before deployment.</p>
+<h2>8. Reproducibility</h2>
+<h3>Fresh-clone setup on Windows Command Prompt</h3>
+<pre><code class="language-bat">git clone https://github.com/imnxr/flyrank-ml-internship.git
+cd flyrank-ml-internship
+py -m venv .venv
+.venv\Scripts\activate
+python -m pip install --upgrade pip
+pip install -r requirements.txt python-dotenv jupyter
+jupyter notebook work/notebooks/capstone.ipynb
+</code></pre>
+<p>Create a local <code>.env</code> file at the repository root:</p>
+<pre><code class="language-text">HF_TOKEN=YOUR_HUGGING_FACE_TOKEN
+</code></pre>
+<p>The <code>.env</code> file is ignored by Git and must never be committed. In Google Colab, store the same value as a secret named <code>HF_TOKEN</code> instead.</p>
+<p>Open <code>work/notebooks/capstone.ipynb</code>, restart the kernel, and run all cells from top to bottom. On the first run, the notebook downloads the required warehouse aggregate and stores a local ignored cache at:</p>
+<pre><code class="language-text">work/cache/capstone_model_base.parquet
+</code></pre>
+<p>Later runs use that cache. Hugging Face rate limiting can temporarily interrupt a first uncached run; the notebook limits HTTP retries to avoid hanging indefinitely.</p>
+<h3>Reproducibility controls</h3>
+<ul>
+<li>Client-grouped split seed: <code>42</code>.</li>
+<li>Logistic-regression seed: <code>42</code>.</li>
+<li>Random-forest seed: <code>42</code>.</li>
+<li>Feature and outcome dates are written explicitly in the notebook SQL.</li>
+<li>The final notebook is committed with sequential execution counts and generated outputs.</li>
+<li>Core dependencies are declared in <code>requirements.txt</code>.</li>
+<li>Notebook-specific addition: <code>python-dotenv</code>.</li>
+<li>Generated datasets and caches are excluded from Git.</li>
+<li>Figures are committed under <code>work/outputs/figures/</code>.</li>
+</ul>
+<h3>Expected outputs</h3>
+<p>Running the notebook should regenerate:</p>
+<pre><code class="language-text">work/outputs/capstone_model_comparison.csv
+work/outputs/capstone_refresh_recommendations.csv
+work/outputs/figures/capstone_roc_unseen_clients.png
+work/outputs/figures/capstone_confusion_baseline.png
+work/outputs/figures/capstone_confusion_logistic.png
+work/outputs/figures/capstone_confusion_random_forest.png
+work/outputs/figures/capstone_random_forest_feature_importance.png
+</code></pre>
+<p>The two CSV files are intentionally ignored as generated data artifacts. The small committed metrics receipt is maintained separately as:</p>
+<pre><code class="language-text">work/outputs/capstone_model_metrics.json
+</code></pre>
+<h2>9. Acknowledgments and data credit</h2>
+<p>Built on the <a href="https://flyrank.ai">FlyRank ML Internship dataset</a>. The project uses pseudonymized warehouse data supplied for internship learning and evaluation. The analysis, implementation, interpretation, and any remaining errors are the author's own.</p>
+<footer><div class="footer-line">FlyRank ML Internship capstone by Muhammad Mansoor Ur Rehman.</div><div class="footer-links"><a href="https://www.linkedin.com/in/mmansoorurrehman/" rel="noopener noreferrer" target="_blank">LinkedIn</a> &middot; <a href="mailto:mansoorshakeel196@gmail.com">mansoorshakeel196@gmail.com</a> &middot; <a href="https://github.com/imnxr" rel="noopener noreferrer" target="_blank">GitHub</a></div></footer>
+</main>
+</body>
+</html>

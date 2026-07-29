@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "project": "FlyRank content refresh risk screening",
+  "evaluation_status": "Held-out evaluation on previously unseen clients",
+  "generated_from": "work/notebooks/capstone.ipynb",
+  "random_seed": 42,
+  "feature_window": {
+    "start": "2026-03-03",
+    "end": "2026-04-01"
+  },
+  "outcome_window": {
+    "start": "2026-04-02",
+    "end": "2026-05-01"
+  },
+  "eligibility": {
+    "gsc_data_available": true,
+    "minimum_impressions_prev30": 100
+  },
+  "target": {
+    "name": "decline_label",
+    "definition": "impressions_future30 / impressions_prev30 < 0.70",
+    "positive_class": "More than 30% decline in impressions"
+  },
+  "features": [
+    "impressions_prev30",
+    "clicks_prev30",
+    "avg_position_prev30",
+    "content_age_days"
+  ],
+  "dataset": {
+    "pages": 101362,
+    "clients": 44,
+    "positive_pages": 42723,
+    "positive_rate": 0.421
+  },
+  "split": {
+    "method": "GroupShuffleSplit",
+    "group": "client_hash_id",
+    "test_size": 0.2,
+    "random_state": 42,
+    "train_pages": 94325,
+    "train_clients": 35,
+    "test_pages": 7037,
+    "test_clients": 9,
+    "test_positive_pages": 3238,
+    "test_negative_pages": 3799,
+    "test_positive_rate": 0.4601
+  },
+  "models": {
+    "transparent_baseline": {
+      "accuracy": 0.5232,
+      "precision": 0.4908,
+      "recall": 0.9645,
+      "f1": 0.6506,
+      "roc_auc": 0.6787
+    },
+    "strict_logistic_regression": {
+      "accuracy": 0.4687,
+      "precision": 0.451,
+      "recall": 0.7125,
+      "f1": 0.5524,
+      "roc_auc": 0.4667
+    },
+    "strict_random_forest": {
+      "accuracy": 0.4854,
+      "precision": 0.4206,
+      "recall": 0.3132,
+      "f1": 0.359,
+      "roc_auc": 0.5264
+    }
+  },
+  "random_forest_feature_importance": {
+    "content_age_days": 0.5071,
+    "clicks_prev30": 0.2271,
+    "avg_position_prev30": 0.1432,
+    "impressions_prev30": 0.1226
+  },
+  "recommended_screening_approach": {
+    "model": "transparent_baseline",
+    "reason": "It achieved the strongest ROC-AUC and F1 on unseen clients. Use its score to rank pages for human review, not to trigger automatic refreshes."
+  }
+}
