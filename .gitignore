@@ -34,3 +34,6 @@ __pycache__/
 .venv/
 venv/
 .env
+work/cache/
+work/duckdb_temp/
+hs_err_pid*.log
